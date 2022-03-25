@@ -9,27 +9,76 @@ library(readxl)
 library(xlsx)
 library(leaflet)
 library(janitor)
+library(wesanderson)
+library(ghibli)
+library(randomcoloR)
 
 tablaRG <- read_csv("database/2022-03-23_CNRG_allCols.csv", col_names = T) %>% 
     clean_names()
 
-tablaRG1 <- tablaRG %>% 
-    select(proyecto, latitud, longitud, estatus_ecologico, tipo_agroecosistema, genero, 
-           epiteto_especifico, epiteto_especifico_otro) %>% 
-    mutate(long = longitud) %>% 
-    mutate(lat = latitud) %>% 
-    select(-c(longitud, latitud)) %>% 
-    drop_na("lat") %>% 
-    drop_na("long") %>% 
-    mutate(RatingCol = as.character(genero)) %>% 
-    mutate(epiteto_especifico = if_else(epiteto_especifico == "otra", "", epiteto_especifico)) %>% 
-    replace_na(., list(epiteto_especifico_otro = "")) %>% 
-    unite(epiteto_especifico, epiteto_especifico_otro, col = "epiteto_especifico", sep = "") %>% 
-    mutate(especie1 = genero) %>% 
-    mutate(especie2 = epiteto_especifico) %>% 
+#TablaLL <- tablaRG[c(3410, 10067, 10079, 10100, 10102),]
+
+tablaRG1 <- tablaRG %>%
+    select(
+        proyecto,
+        latitud,
+        longitud,
+        estatus_ecologico,
+        tipo_agroecosistema,
+        genero,
+        epiteto_especifico,
+        epiteto_especifico_otro
+    ) %>%
+    rename(long = longitud) %>%
+    rename(lat = latitud) %>%
+    #select(-c(longitud, latitud)) %>%
+    drop_na("lat") %>%
+    drop_na("long") %>%
+    mutate(epiteto_especifico = if_else(epiteto_especifico == "otra", "", epiteto_especifico)) %>%
+    replace_na(., list(epiteto_especifico_otro = "")) %>%
+    unite(epiteto_especifico,
+          epiteto_especifico_otro,
+          col = "epiteto_especifico",
+          sep = "") %>%
+    mutate(especie1 = genero) %>%
+    mutate(especie2 = epiteto_especifico) %>%
     unite(especie1, especie2, col = "especie", sep = " ")
+
    # filter(lat > 0) %>% 
    # filter(long < 0)
+
+#Colores para los géneros
+genero2 <- tablaRG1 %>% 
+    select(genero) %>% 
+    distinct()
+
+TT <- nrow(genero2)
+paletteTT <- distinctColorPalette(TT)
+
+genero2 <- genero2 %>% 
+    mutate(colores_genero = paletteTT)
+
+
+tablaRG2 <- tablaRG1 %>% 
+    left_join(genero2, by = "genero")
+
+
+# colores para proyectos
+
+#Colores para los géneros
+proyecto2 <- tablaRG1 %>% 
+    select(proyecto) %>% 
+    distinct()
+
+TT1 <- nrow(proyecto2)
+paletteTT1 <- distinctColorPalette(TT1)
+
+proyecto2 <- proyecto2 %>% 
+    mutate(colores_proyecto = paletteTT1)
+
+
+tablaRG3 <- tablaRG2 %>% 
+    left_join(proyecto2, by = "proyecto")
 
 #TablaZ1 <- TablaZ1 %>% 
 #    mutate(RatingCol = case_when(RatingCol == "Capsicum" ~ "#41ae76",

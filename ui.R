@@ -28,7 +28,14 @@ tabPanel("mymap1",
                inline = FALSE,
                #     btn_label = "Reiniciar la visualización"
              ),
+             awesomeRadio(
+                 inputId = "color_dot",
+                 label = "Colores", 
+                 choices = c("Proyecto", "Género"),
+                 selected = "Proyecto",
+                 inline = TRUE, 
+                 status = "danger"
+             ),
            ),
-           
          #)
          )
