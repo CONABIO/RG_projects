@@ -34,6 +34,7 @@ tablaRG1 <- tablaRG %>%
     #select(-c(longitud, latitud)) %>%
     drop_na("lat") %>%
     drop_na("long") %>%
+    drop_na("proyecto") %>% 
     mutate(epiteto_especifico = if_else(epiteto_especifico == "otra", "", epiteto_especifico)) %>%
     replace_na(., list(epiteto_especifico_otro = "")) %>%
     unite(epiteto_especifico,
@@ -78,7 +79,11 @@ proyecto2 <- proyecto2 %>%
 
 
 tablaRG3 <- tablaRG2 %>% 
-    left_join(proyecto2, by = "proyecto")
+    left_join(proyecto2, by = "proyecto") %>% 
+    drop_na(lat) %>% 
+    drop_na(long)
+
+
 
 #TablaZ1 <- TablaZ1 %>% 
 #    mutate(RatingCol = case_when(RatingCol == "Capsicum" ~ "#41ae76",
@@ -130,4 +135,36 @@ tablaRG3 <- tablaRG2 %>%
 #writexl::write_xlsx(Long_positiva , path = "database/Long_positiva.xlsx")
 
 
-
+    clave <- c("NO")
+#    tablaRG4 <- tablaRG3 %>% 
+#        select(proyecto, genero, especie) %>% 
+#        #mutate(especie1 = especie)
+#        mutate(especie1 = if_any(clave == "SI", dplyr::select(especie), dplyr::select(proyecto)))
+#        #select(especie1 = ifelse(clave == "SI", especie, proyecto))
+#        #add_column(especie1 = ifelse(clave == "SI", tablaRG3$especie, tablaRG3$proyecto) )
+#        
+#    head(tablaRG4)
+#    
+#    tablaRG3a <- tablaRG3
+#    color13 <- tablaRG3[,ifelse(clave == "SI", 10, 9)]
+#    
+#    tablaRG3a <- tablaRG3[,-c(9,10)] %>% 
+#        bind_cols(color13)
+#    
+#    names(tablaRG3a)[9] <- c("colores11")
+#    
+    
+    
+    #tablaRG5 <- tablaRG4 %>% 
+    #    add_column(if_any(clave == "SI", tablaRG3$especie, tablaRG3$proyecto))
+    
+    
+    tablaRG4 <- tablaRG3 %>% 
+        select(proyecto, genero, especie, lat, long)
+    
+    columna1 <- ifelse(clave == "SI", names(tablaRG3)[9], names(tablaRG3)[10])
+        
+    
+    tablaRG5 <- tablaRG3 %>% 
+        select(all_of(columna1)) %>% 
+        bind_cols(tablaRG4)

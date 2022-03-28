@@ -6,11 +6,9 @@ library(tidyverse)
 library(shinyjs)
 library(scales)
 
-
 # Define server logic for slider examples
 shinyServer(function(input, output, session) {
    
-  
 points <- callModule(
   module = selectizeGroupServer,
   id = "my_filters",
@@ -18,40 +16,49 @@ points <- callModule(
   vars = c("genero", "proyecto", "estatus_ecologico")
 )
 
+
+#    columna1 <- ifelse(input$color_dot == "Proyecto",
+#                       names(points())[9], names(points())[10])
+#    
+#    TTablaL1 <-  points() %>% 
+#        select(all_of(columna1))
+    
+
+    
   points1 <- reactive({
     
-    TTablaL <- points()
-  
-   # Goldberg <- Goldberg %>% 
-   #   bind_cols(color11)
+    columna1 <- c(ifelse(input$color_dot == "Proyecto",
+                                     names(points())[10], names(points())[9])) %>% 
+        as.character()
+      
   })
-
+  
   
   #P el mapa en leaflet
   output$mymap1 <- renderLeaflet(
     {
-      
-     # Parientes2 <- Parientes[Parientes$Tipo %in% input$Tipo,]
-     # factpal <- colorFactor(c("red", "orange"), Parientes2$Tipo)
-      
-      
-      Goldberg <- points1()
-      
-    #  color11 <- ifelse(input$color_dot = FALSE, Goldberg %>% select(colores_genero),
-    #                    Goldberg %>% select(colores_proyecto))
-      
-      uno1 <- as.vector(Goldberg$colores_proyecto)
-      dos2 <- as.vector(Goldberg$colores_genero)
-      
+        
+        columna1 <- points1()
+        
+          TTablaL <- points() %>% 
+              select(all_of(columna1)) %>%
+              as.data.frame()
+        
+       
+      Goldberg <- TTablaL %>%
+          as.data.frame() %>% 
+          bind_cols(points())
       
       
-    #  TT <- paste(Goldberg$Raza_primaria)
+      names(Goldberg)[1] <- c("colores111")
+      
       leaflet() %>%
         addTiles() %>%
         addCircleMarkers(Goldberg$long, Goldberg$lat, 
                          weight = 8, radius = 5, stroke = F, fillOpacity = 0.7, 
                          #color = ifelse(input$color_dot, Goldberg$colores_proyecto, Goldberg$colores_genero),
-                         color = ifelse(input$color_dot == "Proyecto", Goldberg[,9], Goldberg[,10]),
+                        color = Goldberg$colores111,
+                        # color = "red",
                         # fillColor = color,
                          #color = uno1,  
                          popup = paste(sep = " ",
