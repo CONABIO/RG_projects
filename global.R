@@ -20,7 +20,6 @@ tablaRG <- read_csv("database/2022-03-23_CNRG_allCols.csv", col_names = T) %>%
 
 tablaRG1 <- tablaRG %>%
     select(
-        numero_colecta_observacion,
         proyecto,
         latitud,
         longitud,
@@ -28,9 +27,9 @@ tablaRG1 <- tablaRG %>%
         tipo_agroecosistema,
         genero,
         epiteto_especifico,
-        epiteto_especifico_otro
+        epiteto_especifico_otro,
+        numero_colecta_observacion
     ) %>%
-    rename(num_colecta = numero_colecta_observacion) %>% 
     rename(long = longitud) %>%
     rename(lat = latitud) %>%
     #select(-c(longitud, latitud)) %>%
