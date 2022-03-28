@@ -62,6 +62,7 @@ points <- callModule(
                         # fillColor = color,
                          #color = uno1,  
                          popup = paste(sep = " ",
+                                       "Num. colecta:",Goldberg$num_colecta,"<br/>",
                                        "Proyecto:",Goldberg$proyecto,"<br/>",
                                        "Especie:",Goldberg$especie,"<br/>",
                                        "Status ecológico:",Goldberg$estatus_ecologico,"<br/>", 
