@@ -5,6 +5,7 @@ library(RColorBrewer)
 library(tidyverse)
 library(shinyjs)
 library(scales)
+library(rpivotTable)
 
 #setwd()
 #options(rsconnect.check.certificate = FALSE)
@@ -22,15 +23,6 @@ points <- callModule(
   vars = c("genero", "proyecto", "estatus_ecologico")
 )
 
-
-#    columna1 <- ifelse(input$color_dot == "Proyecto",
-#                       names(points())[9], names(points())[10])
-#    
-#    TTablaL1 <-  points() %>% 
-#        select(all_of(columna1))
-    
-
-    
   points1 <- reactive({
       
       
@@ -39,40 +31,7 @@ points <- callModule(
                                      names(points())[9], names(points())[8])) %>% 
         as.character()
       
-  #  TTablaL <- points() %>% 
-  #      select(all_of(columna1)) %>%
-  #      as.data.frame()
-##        bind_cols(points())
-##    
-##    
-##  #  tablaRG5 <- TTablaL %>% 
-##  #      select(proyecto:especie)
-##    
-##    #TTablaL1 <-  TTablaL %>% 
-##    #    select(all_of(columna1)) %>% 
-##    #    bind_cols(tablaRG5)
-##    
-##    names(TTablaL)[1] <- c("colores111")
-    
-   # rm(tablaRG5, TTablaL)
-  #  color13 <- TTablaL[,ifelse(input$color_dot == "Proyecto", 10, 9)] 
-  #  
-  #  TTablaL <- TTablaL %>% 
-  #      select(proyecto:especie) %>% 
-  #      bind_cols(color13)
-  #  
-  #  names(TTablaL)[9] <- c("colores111")
-    
-   # rm(color13)
-  #  color11 <- ifelse(input$color_dot == "Proyecto", names(TTablaL)[10], names(TTablaL)[9])
-  #  
-  #  color12 <- TTablaL %>% 
-  #      select(all_of(color11)) %>% 
-  #      as.vector()
-  #  
-  #  TTablaL <- TTablaL %>% 
-  #      bind_cols(tablaRG5)
-
+  
   })
   
   
@@ -121,4 +80,19 @@ points <- callModule(
         addProviderTiles("CartoDB.Positron")
       
     }) 
+  
+  #Para hacer un PivotTable
+  
+  output$Ceratti3 <- renderRpivotTable({
+    
+    tablaRG4 <- tablaRG3 %>% 
+      select(proyecto,
+             estatus_ecologico,
+             genero,
+             epiteto_especifico,
+             especie)
+    
+    rpivotTable(tablaRG4)
+  })
+  
 })
