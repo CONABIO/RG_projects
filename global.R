@@ -22,12 +22,16 @@ set_config(config(ssl_verifypeer = 0L))
 #Here is the function that design Alice
 source(file = "source_graphQL.R", local = T)
 
-url1 <- c("https://siagro.conabio.gob.mx/colectas_api")
+#url1 <- c("https://colectas-siagro.conabio.gob.mx/api/graphql")
+
+#url1 <- c("https://siagro.conabio.gob.mx/colectas_api")
+url1 <- c("https://colectas-siagro.conabio.gob.mx/api/graphql")
 
 #This are the steps to tak all the data in Zendro from the section:
 # Desgargar los datos cuando necesitamos hacer paginación from the Rmarkdown
 
-no_records <- get_from_graphQL(query = "{countRegistros}", url=url1)
+no_records <- get_from_graphQL(query = "{countRegistros}", url = url1)
+
 
 # change to vector, we don't need a df
 no_records <- no_records[1,1]
@@ -160,6 +164,9 @@ proyecto2 <- proyecto2 %>%
 tablaRG3 <- tablaRG2 %>% 
     left_join(proyecto2, by = "proyecto") %>% 
     drop_na(lat) %>% 
-    drop_na(long)
+    drop_na(long) %>% 
+    separate(., proyecto, sep = "-", into = c("proyecto", "proyecto2")) %>% 
+    select(-c("proyecto2"))
+
 
 

@@ -75,7 +75,9 @@ points <- callModule(
                                       # "Num. colecta:",Goldberg$numero_colecta_observacion,"<br/>",
                                        "Proyecto:",Goldberg$proyecto,"<br/>",
                                        "Especie:",Goldberg$especie,"<br/>",
-                                       "Status ecológico:",Goldberg$estatus_ecologico)) %>%
+                                       "Status ecológico:",Goldberg$estatus_ecologico,"<br/>",
+                                      "Latitud:",Goldberg$lat,"<br/>",
+                                      "Longitud:",Goldberg$long)) %>%
         
         addProviderTiles("CartoDB.Positron")
       

@@ -8,37 +8,37 @@ set_config(config(ssl_verifypeer = 0L))
 
 
 
-#   my_query <- "{
-#     registros(pagination:{limit:100}){
-#       EstatusEcologico
-#       proyecto_id
-#       proyecto(search:{field:proyecto_id}){
-#         NombreProyecto
-#       }
-#       sitio(search:{field:sitio_id}){
-#         Latitud
-#       Longitud
-#       }
-#       taxon(search:{field:taxon_id}){
-#         taxon_id
-#         Genero
-#         EpitetoEspecifico
-#         EpitetoSubespecie
-#         EpitetoVariedad
-#         EpitetoForma
-#         EpitetoRaza
-#         EpitetoCultivar
-#       }
-#     }
-#   }
-#   "
-#   
-#   ###  url del servidor GraphiQL 
-#   url <- c("https://siagro.conabio.gob.mx/colectas_api")
-#   ##
-#   ##
-#   result <- POST(url, body = list(query = my_query))
-#   
+##   my_query <- "{
+##     registros(pagination:{limit:100}){
+##       EstatusEcologico
+##       proyecto_id
+##       proyecto(search:{field:proyecto_id}){
+##         NombreProyecto
+##       }
+##       sitio(search:{field:sitio_id}){
+##         Latitud
+##       Longitud
+##       }
+##       taxon(search:{field:taxon_id}){
+##         taxon_id
+##         Genero
+##         EpitetoEspecifico
+##         EpitetoSubespecie
+##         EpitetoVariedad
+##         EpitetoForma
+##         EpitetoRaza
+##         EpitetoCultivar
+##       }
+##     }
+##   }
+##   "
+##   
+##   ###  url del servidor GraphiQL 
+##   url1 <- c('https://colectas-siagro.conabio.gob.mx/api/graphql')
+##   ##
+##   ##
+##   result <- POST(url = url1, body = list(query = my_query))
+##   result$status_code
 #   jsonResult <- content(result, as = "text") 
 #   
 #   readableResult <- fromJSON(jsonResult, 
@@ -70,13 +70,15 @@ get_from_graphQL <- function(query, url){
     
     ### Function
     
+    result <- POST(url, body = list(query=query), encode=c("json"))
+    
     ##  query the server
-    result <- POST(url, body = list(query = query))
+    ##result <- POST(url, body = list(query = query))
     
     ## check server response
     satus_code <- result$status_code
     
-    if(satus_code != 200){
+    if (satus_code != 200) {
         print(paste0("Oh, oh: status code ", satus_code, ". Check your query and that the server is working"))
     }
     
@@ -89,7 +91,7 @@ get_from_graphQL <- function(query, url){
         # graphiQL will send an error if there is a problem with the query and the data was not dowloaded properly, even if the connection status was 200. 
         ### FIX this when != TRUE because result is na
         errors <- grepl("errors*{10}", jsonResult)
-        if(errors == TRUE){
+        if (errors == TRUE) {
             print("Sorry :(, your data downloaded with errors, check your query and API server for details")
         } 
         else{ 

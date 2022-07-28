@@ -28,8 +28,8 @@ shinyUI(navbarPage(
                                 id = "my_filters",
                                 params = list(
                                     genero = list(inputId = "genero", title = "Genero:"),
-                                    especie = list(inputId = "proyecto", title = "Proyecto:"),
-                                    especie = list(inputId = "estatus_ecologico", title = "Estatus ecológico:")
+                                    proyecto = list(inputId = "proyecto", title = "Proyecto:"),
+                                    estatus_ecologico = list(inputId = "estatus_ecologico", title = "Estatus ecológico:")
                                     #    Estado = list(inputId = "Estado", title = "Estado:")
                                 ),
                                 inline = FALSE,
