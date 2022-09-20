@@ -62,8 +62,13 @@ points <- callModule(
       
       
     #  TT <- paste(Goldberg$Raza_primaria)
-      leaflet() %>%
-        addTiles() %>%
+      leaflet(options = leafletOptions(zoomControl = FALSE,
+                                      # minZoom = 3, 
+                                       maxZoom = 8,
+                                       dragging = FALSE)) %>%
+        addTiles(
+           # options = providerTileOptions(maxZoom = 8)
+        ) %>%
         addCircleMarkers(Goldberg$long, Goldberg$lat, 
                          weight = 8, radius = 5, stroke = F, fillOpacity = 0.7, 
                          #color = ifelse(input$color_dot, Goldberg$colores_proyecto, Goldberg$colores_genero),
@@ -75,9 +80,10 @@ points <- callModule(
                                       # "Num. colecta:",Goldberg$numero_colecta_observacion,"<br/>",
                                        "Proyecto:",Goldberg$proyecto,"<br/>",
                                        "Especie:",Goldberg$especie,"<br/>",
-                                       "Status ecológico:",Goldberg$estatus_ecologico,"<br/>",
-                                      "Latitud:",Goldberg$lat,"<br/>",
-                                      "Longitud:",Goldberg$long)) %>%
+                                       "Status ecológico:",Goldberg$estatus_ecologico,"<br/>"
+                                      #"Latitud:",Goldberg$lat,"<br/>",
+                                      #"Longitud:",Goldberg$long
+                                      )) %>%
         
         addProviderTiles("CartoDB.Positron")
       
