@@ -29,7 +29,8 @@ shinyUI(navbarPage(
                                 params = list(
                                     genero = list(inputId = "genero", title = "Genero:"),
                                     proyecto = list(inputId = "proyecto", title = "Proyecto:"),
-                                    estatus_ecologico = list(inputId = "estatus_ecologico", title = "Estatus ecológico:")
+                                    estatus_ecologico = list(inputId = "estatus_ecologico", title = "Estatus ecológico:"),
+                                    estado = list(inputId = "estado", title = "Estado:")
                                     #    Estado = list(inputId = "Estado", title = "Estado:")
                                 ),
                                 inline = FALSE,

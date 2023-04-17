@@ -1,16 +1,11 @@
 library(shiny)
 library(shinyjs)
 library(shinyWidgets)
-#library(grid)
-#library(vcd)
-#library(plyr)
 library(tidyverse)
 library(readxl)
 library(xlsx)
 library(leaflet)
 library(janitor)
-#library(wesanderson)
-#library(ghibli)
 library(randomcoloR)
 library(httr)
 library(jsonlite)
@@ -79,7 +74,8 @@ for(i in c(1:length(my_offset))){
       NombreProyecto
     }
     sitio(search:{field:sitio_id}){
-      Latitud
+    Estado
+    Latitud
     Longitud}
     taxon(search:{field:taxon_id}){
       taxon_id
@@ -110,6 +106,7 @@ tablaRG <- data %>%
 
 tablaRG1 <- tablaRG %>%
     select(proyecto_id,
+        estado,   
         latitud,
         longitud,
         estatus_ecologico,

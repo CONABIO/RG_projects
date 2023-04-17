@@ -20,7 +20,8 @@ points <- callModule(
   module = selectizeGroupServer,
   id = "my_filters",
   data = tablaRG3,
-  vars = c("genero", "proyecto", "estatus_ecologico")
+  vars = c("genero", "proyecto", "estatus_ecologico", "estado"), 
+  inline = FALSE
 )
 
   points1 <- reactive({
@@ -95,6 +96,7 @@ points <- callModule(
     
     tablaRG4 <- tablaRG3 %>% 
       select(proyecto,
+             estado,
              estatus_ecologico,
              genero,
              epiteto_especifico,
