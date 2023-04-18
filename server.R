@@ -29,7 +29,7 @@ points <- callModule(
       
       
     columna1 <- c(ifelse(input$color_dot == "Proyecto",
-                                     names(points())[9], names(points())[8])) %>% 
+                                     names(points())[10], names(points())[9])) %>% 
         as.character()
       
   
