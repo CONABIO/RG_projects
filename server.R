@@ -63,10 +63,11 @@ points <- callModule(
       
       
     #  TT <- paste(Goldberg$Raza_primaria)
-      leaflet(options = leafletOptions(zoomControl = FALSE,
-                                      # minZoom = 3, 
-                                       maxZoom = 8,
-                                       dragging = FALSE)) %>%
+     # leaflet(options = leafletOptions(zoomControl = FALSE,
+     #                                  # minZoom = 3, 
+     #                                  maxZoom = 8,
+     #                                  dragging = FALSE)) %>%
+      leaflet() %>%      
         addTiles(
            # options = providerTileOptions(maxZoom = 8)
         ) %>%
